@@ -1,0 +1,14 @@
+[diff]
+git = on
+[extensions]
+progress =
+share =
+color =
+eol =
+pager =
+rebase =
+[pager]
+pager = LESS='FRX' less
+[ui]
+editor = vim
+username = Andrew Svetlov <andrew.svetlov@gmail.com>

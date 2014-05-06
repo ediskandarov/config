@@ -1,0 +1,6 @@
+.emacs.d/auto-save-list
+.emacs.d/session.*
+.emacs.d/image-dired
+.emacs.d/.project-roots*
+.emacs.d/ac-comphist.dat
+*.log

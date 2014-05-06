@@ -1,0 +1,22 @@
+[user]
+name = Andrew Svetlov
+email = andrew.svetlov@gmail.com
+[color]
+ui = true
+[alias]
+lg = log --graph --pretty=format:'%Cred%h%Creset%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+st = status -sb
+co = checkout
+ci = commit
+br = branch
+[diff]
+guitool = kdiff3
+[core]
+editor = emacs -nw
+eol = lf 
+[rerere]
+enabled = true
+[help]
+autocorrect = 1
+[push]
+default = simple
