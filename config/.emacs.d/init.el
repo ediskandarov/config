@@ -23,9 +23,6 @@
 (setq global-whitespace-mode t)
 ; space-mark tab-mark newline-mark
 
-;(setq tab-width 5
-;      whitespace-style '(trailing lines-tail space-after-tab space-before-tab)
-;      whitespace-line-column 80)
 
 (progn
   (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))  ;; no toolbar
@@ -78,39 +75,6 @@
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
 (setq org-log-done t)
-
-(autoload 'ack "ack" "" t)
-;; projects root
-(require 'project-root)
-(setq project-roots
-      `(("Django project"
-         :root-contains-files ("manage.py")
-         :filename-regex ,(regexify-ext-list '(py html css js sh))
-         :exclude-paths '("contrib"))
-        ("Sphinx documentation"
-         :root-contains-files ("Makefile" "conf.py")
-         :filename-regex ,(regexify-ext-list '(py rst))
-         :exclude-paths '("_build"))
-        ("Python project with buildout"
-         :root-contains-files ("../../buildout.cfg")
-         :filename-regex ,(regexify-ext-list '(py)))
-        ("Generic Python project"
-         :root-contains-files ("setup.py")
-         :filename-regex ,(regexify-ext-list '(py)))
-        ("Generic Mercurial project"
-         :root-contains-files (".hg"))
-        ("Generic Bazaar project"
-         :root-contains-files (".bzr"))
-        ;("Generic Subversion project"
-        ; :root-contains-files (".bzr"))
-        ("Generic git project"
-         :root-contains-files (".git"))))
-
-(global-set-key (kbd "C-c p f") 'project-root-find-file)
-(global-set-key (kbd "C-c p g") 'project-root-grep)
-(global-set-key (kbd "C-c p a") 'project-root-ack)
-(global-set-key (kbd "C-c p d") 'project-root-goto-root)
-(global-set-key (kbd "C-c p l") 'project-root-browse-seen-projects)
 
 (require 'flyspell)
 (require 'ispell)
