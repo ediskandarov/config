@@ -1,6 +1,6 @@
-.emacs.d/auto-save-list
-.emacs.d/session.*
-.emacs.d/image-dired
-.emacs.d/.project-roots*
-.emacs.d/ac-comphist.dat
+config/.emacs.d/auto-save-list
+config/.emacs.d/session.*
+config/.emacs.d/image-dired
+config/.emacs.d/.project-roots*
+config/.emacs.d/ac-comphist.dat
 *.log
