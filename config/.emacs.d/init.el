@@ -19,7 +19,8 @@
 
 
 (setq c-basic-offset 4)
-
+(show-paren-mode 1)
+ (setq show-paren-delay 0)
 (setq global-whitespace-mode t)
 ; space-mark tab-mark newline-mark
 
@@ -85,7 +86,10 @@
 (setq python-shell-interpreter "ipython3")
 ;(elpy-use-ipython)
 (setq elpy-rpc-python-command "python3")
+(setq elpy-rpc-backend "jedi")
 (elpy-enable)
+(define-key python-mode-map (kbd "C-;")  'iedit-mode)
+(define-key global-map (kbd "C-x C-b") 'ibuffer)
 
 ;whitespace-mode
 (defun myyy-python-hook ()
