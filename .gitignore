@@ -4,4 +4,6 @@ config/.emacs.d/image-dired
 config/.emacs.d/.project-roots*
 config/.emacs.d/ac-comphist.dat
 config/.emacs.d/eshell/history
+config/.emacs.d/autosave
+config/.emacs.d/backup
 *.log
