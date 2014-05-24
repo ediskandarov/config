@@ -4,7 +4,7 @@
 
 
 ;;;### (autoloads (elpy-mode elpy-disable elpy-enable) "elpy" "elpy.el"
-;;;;;;  (21350 9927 644674 821000))
+;;;;;;  (21376 38195 73209 141000))
 ;;; Generated autoloads from elpy.el
 
 (autoload 'elpy-enable "elpy" "\
@@ -39,8 +39,8 @@ more structured list.
 
 ;;;***
 
-;;;### (autoloads nil nil ("elpy-pkg.el" "elpy-refactor.el") (21350
-;;;;;;  9927 754586 791000))
+;;;### (autoloads nil nil ("elpy-pkg.el" "elpy-refactor.el") (21376
+;;;;;;  38195 141639 994000))
 
 ;;;***
 
