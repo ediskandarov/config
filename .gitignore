@@ -6,4 +6,5 @@ config/.emacs.d/ac-comphist.dat
 config/.emacs.d/eshell/history
 config/.emacs.d/autosave
 config/.emacs.d/backup
+config/.emacs.d/projectile-bookmarks.eld
 *.log

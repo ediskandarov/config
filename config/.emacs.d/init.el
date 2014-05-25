@@ -82,6 +82,9 @@
 
 (setq ispell-program-name "aspell")
 
+(require 'projectile)
+(projectile-global-mode)
+
 (add-to-list 'interpreter-mode-alist '("python3" . python-mode))
 (setq python-shell-interpreter "ipython3")
 ;(elpy-use-ipython)
