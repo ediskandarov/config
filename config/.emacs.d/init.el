@@ -97,10 +97,11 @@
   (whitespace-mode t))
 
 (add-hook 'python-mode-hook 'myyy-python-hook)
-(require 'virtualenvwrapper)
-(venv-initialize-interactive-shells) ;; if you want interactive shell support
+
+;(require 'virtualenvwrapper)
+;(venv-initialize-interactive-shells) ;; if you want interactive shell support
 ;(venv-initialize-eshell) ;; if you want eshell support
-(setq venv-location "~/projects/envs/")
+;(setq venv-location "~/projects/envs/")
 
 ;web-mode
 (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
