@@ -62,11 +62,13 @@
 
 (load-theme 'tangotango t)  
 
-;(require 'ido)
+(require 'flx-ido)
 (setq ido-enable-flex-matching t)
-(setq ido-everywhere t)
 (setq ido-use-filename-at-point 'guess)
 (ido-mode t)
+(ido-everywhere t)
+(flx-ido-mode t)
+(setq ido-use-faces nil)
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'post-forward)
 

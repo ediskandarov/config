@@ -29,3 +29,5 @@ fi
 EDITOR="emacs -nw"
 
 PATH="$HOME/android-sdk-linux/tools:$HOME/android-sdk-linux/platform-tools:$HOME:$PATH"
+
+WORKON_HOME=~/projects/envs
