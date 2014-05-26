@@ -105,6 +105,7 @@
 ;(venv-initialize-interactive-shells) ;; if you want interactive shell support
 ;(venv-initialize-eshell) ;; if you want eshell support
 ;(setq venv-location "~/projects/envs/")
+(setenv "WORKON_HOME" "~/projects/envs")
 
 ;web-mode
 (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
