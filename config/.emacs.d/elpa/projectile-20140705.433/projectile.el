@@ -5,7 +5,7 @@
 ;; Author: Bozhidar Batsov <bozhidar@batsov.com>
 ;; URL: https://github.com/bbatsov/projectile
 ;; Keywords: project, convenience
-;; Version: 20140630.416
+;; Version: 20140705.433
 ;; X-Original-Version: 0.11.0
 ;; Package-Requires: ((s "1.6.0") (dash "1.5.0") (pkg-info "0.4"))
 
@@ -122,7 +122,7 @@ Otherwise consider the current directory the project root."
   "The completion system to be used by Projectile."
   :group 'projectile
   :type 'symbol
-  :options '(ido grizzl default))
+  :options '(ido grizzl helm default))
 
 (defcustom projectile-keymap-prefix (kbd "C-c p")
   "Projectile keymap prefix."
@@ -1018,6 +1018,14 @@ project-root for every file."
       (ido-completing-read prompt choices nil nil initial-input))
      ((eq projectile-completion-system 'default)
       (completing-read prompt choices nil nil initial-input))
+     ((eq projectile-completion-system 'helm)
+      (if (fboundp 'helm-comp-read)
+          (helm-comp-read prompt choices
+                          :initial-input initial-input
+                          :candidates-in-buffer t
+                          :must-match 'confirm)
+        (user-error "Please install helm from \
+https://github.com/emacs-helm/helm")))
      ((eq projectile-completion-system 'grizzl)
       (if (and (fboundp 'grizzl-completing-read)
                (fboundp 'grizzl-make-index))
@@ -1669,6 +1677,31 @@ For git projects `magit-status' is used if available."
 (defvar projectile-gulp-test-cmd "gulp test")
 (defvar projectile-go-compile-cmd "go build ./...")
 (defvar projectile-go-test-cmd "go test ./...")
+
+(cl-dolist (var '(projectile-rails-compile-cmd
+                  projectile-ruby-compile-cmd
+                  projectile-ruby-test-cmd
+                  projectile-ruby-rspec-cmd
+                  projectile-django-compile-cmd
+                  projectile-django-test-cmd
+                  projectile-python-compile-cmd
+                  projectile-python-test-cmd
+                  projectile-symfony-compile-cmd
+                  projectile-symfony-test-cmd
+                  projectile-maven-compile-cmd
+                  projectile-maven-test-cmd
+                  projectile-lein-compile-cmd
+                  projectile-lein-test-cmd
+                  projectile-rebar-compile-cmd
+                  projectile-rebar-test-cmd
+                  projectile-sbt-compile-cmd
+                  projectile-sbt-test-cmd
+                  projectile-make-compile-cmd
+                  projectile-make-test-cmd
+                  projectile-grunt-compile-cmd
+                  projectile-grunt-test-cmd))
+  (put var 'safe-local-variable #'stringp))
+
 
 (defvar projectile-compilation-cmd-map
   (make-hash-table :test 'equal)
