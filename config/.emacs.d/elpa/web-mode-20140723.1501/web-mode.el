@@ -3,7 +3,7 @@
 
 ;; Copyright 2011-2014 François-Xavier Bois
 
-;; Version: 9.0.49
+;; Version: 9.0.53
 ;; Author: François-Xavier Bois <fxbois AT Google Mail Service>
 ;; Maintainer: François-Xavier Bois
 ;; Created: July 2011
@@ -46,7 +46,7 @@
 
 ;;---- CONSTS ------------------------------------------------------------------
 
-(defconst web-mode-version "9.0.49"
+(defconst web-mode-version "9.0.53"
   "Web Mode version.")
 
 ;;---- GROUPS ------------------------------------------------------------------
@@ -3314,10 +3314,16 @@ the environment as needed for ac-sources, right before they're used.")
          ((and (null close-expr) (looking-at-p "[ ]*/>"))
           (setq flags (logior flags 24))
           (search-forward ">")
+          (when (> (logand flags 8) 0)
+;;            (message "ici%S" (point))
+            (setq props (plist-put props 'tag-type 'void)))
           (setq tend (point)))
          ((null close-expr)
           (setq flags (logior flags (web-mode-tag-skip reg-end)))
-;;          (search-forward ">")
+          (when (> (logand flags 8) 0) ;;(eq (char-before (1- (point))) ?\/)
+            ;;            (message "ici")
+            (setq props (plist-put props 'tag-type 'void)))
+          ;;          (search-forward ">")
           (setq tend (point)))
          ((web-mode-dom-sf close-expr limit t)
           (setq tend (point)))
@@ -4361,7 +4367,7 @@ the environment as needed for ac-sources, right before they're used.")
       (setq beg (next-single-property-change pos 'tag-attr))
       (if (and beg (< beg reg-end))
           (progn
-            (setq flags (get-text-property beg 'tag-attr))
+            (setq flags (or (get-text-property beg 'tag-attr) 0))
 ;;            (message "beg=%S flags=%S" beg flags)
             (setq face (cond
                         ((= (logand flags 1) 1) 'web-mode-html-attr-custom-face)
@@ -5112,7 +5118,7 @@ the environment as needed for ac-sources, right before they're used.")
 ;; tag-case=lower|upper-case , attr-case=lower|upper-case
 ;; special-chars=unicode|html-entities
 ;; smart-apostrophes=bool , smart-quotes=bool , indentation=bool
-(defun web-mode-buffer-normalize ()
+(defun web-mode-dom-normalize ()
   "Normalize buffer"
   (interactive)
   (save-excursion
@@ -5676,7 +5682,7 @@ the environment as needed for ac-sources, right before they're used.")
              )
             )
 
-           ((and (string= language "php")
+           ((and (member language '("php" "javascript" "jsx"))
                  (or (string-match-p "^else$" prev-line)
                      (string-match-p "^\\(if\\|for\\|foreach\\|while\\)[ ]*(.+)$" prev-line))
                  (not (string-match-p "^{" line)))
@@ -8853,9 +8859,7 @@ the environment as needed for ac-sources, right before they're used.")
   pos)
 
 (defun web-mode-block-beginning-position (&optional pos)
-  "web-mode-block-beginning-position"
   (unless pos (setq pos (point)))
-;;  (message "web-mode-block-beginning-position=%S" pos)
   (cond
    ((or (and (get-text-property pos 'block-side)
              (= pos (point-min)))
@@ -8867,8 +8871,7 @@ the environment as needed for ac-sources, right before they're used.")
     )
    ((get-text-property pos 'block-side)
     (setq pos (previous-single-property-change pos 'block-beg))
-    (setq pos (if pos (1- pos) (point-min)))
-;;    (setq pos (if pos pos (point-min)))
+    (setq pos (if (and pos (> pos (point-min))) (1- pos) (point-min)))
     )
    (t
     (setq pos nil))
@@ -8904,36 +8907,64 @@ the environment as needed for ac-sources, right before they're used.")
    ))
 
 (defun web-mode-block-previous-position (&optional pos)
-  "web-mode-block-previous-position"
   (unless pos (setq pos (point)))
+;;  (message "pos=%S" pos)
   (cond
+   ((= pos (point-min))
+    (setq pos nil))
    ((get-text-property pos 'block-side)
     (setq pos (web-mode-block-beginning-position pos))
-    (when (and pos (> pos (point-min)))
+    (cond
+     ((or (= pos (point-min))
+          (null pos))
+      (setq pos nil)
+      )
+     ((and (setq pos (previous-single-property-change pos 'block-beg))
+           (> pos (point-min)))
       (setq pos (1- pos))
-      (while (and (> pos (point-min))
-                  (eq (char-after pos) ?\n))
-        (setq pos (1- pos))
-        )
-      ;;(message "pos=%S  <%c>" pos (char-after pos))
-      (if (get-text-property pos 'block-side)
-          (setq pos (web-mode-block-beginning-position pos))
-        (setq pos (previous-single-property-change pos 'block-side))
-        (cond
-         ((and pos (get-text-property pos 'block-beg))
-          )
-         ((and pos (> pos (point-min)))
-          (setq pos (web-mode-block-beginning-position (1- pos))))
-         )
-        ) ;if
-      ) ;when
+;;      (message "pos=%S" pos)
+      )
+     )
+
+    ;; ;; (when (and pos (> pos (point-min)))
+    ;; ;;   (setq pos (1- pos))
+    ;; ;;   (while (and (> pos (point-min))
+    ;; ;;               (eq (char-after pos) ?\s))
+    ;; ;;     (setq pos (1- pos))
+    ;; ;;     ) ;while
+
+    ;; (if (get-text-property pos 'block-side)
+    ;;     (progn
+    ;;       (setq pos (web-mode-block-beginning-position pos))
+    ;;       )
+    ;;   ;;(message "pos=%S  <%c> %S" pos (char-after pos) (get-text-property pos 'block-side))
+    ;;   (setq pos (previous-single-property-change pos 'block-side))
+    ;;   (cond
+    ;;    ((and (null pos) (get-text-property (point-min) 'block-beg))
+    ;;     (setq pos (point-min)))
+    ;;    ((and pos (get-text-property pos 'block-beg))
+    ;;     )
+    ;;    ((and pos (> pos (point-min)))
+    ;;     (setq pos (web-mode-block-beginning-position (1- pos))))
+    ;;    )
+    ;;   ) ;if
+    ;; ;;    ) ;when
+
+
+    ;;    (message "pos=%S  <%c>" pos (char-after pos))
     ) ;block-side
    (t
     (setq pos (previous-single-property-change pos 'block-side))
-    (when (and pos (> pos (point-min)))
+    ;;    (message "ici")
+    (cond
+     ((and (null pos) (get-text-property (point-min) 'block-beg))
+      (setq pos (point-min)))
+     ((and pos (> pos (point-min)))
       (setq pos (web-mode-block-beginning-position (1- pos))))
+     )
     )
    ) ;conf
+;;  (message "->%S" pos)
   pos)
 
 (defun web-mode-block-next-position (&optional pos)

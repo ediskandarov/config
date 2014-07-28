@@ -3,16 +3,16 @@
 ;;; Code:
 
 
-;;;### (autoloads nil "tangotango-theme" "tangotango-theme.el" (21349
-;;;;;;  64164 228061 120000))
+;;;### (autoloads nil "tangotango-theme" "tangotango-theme.el" (21462
+;;;;;;  45442 881841 910000))
 ;;; Generated autoloads from tangotango-theme.el
 
 (and load-file-name (boundp 'custom-theme-load-path) (add-to-list 'custom-theme-load-path (file-name-as-directory (file-name-directory load-file-name))))
 
 ;;;***
 
-;;;### (autoloads nil nil ("tangotango-theme-pkg.el") (21349 64164
-;;;;;;  251743 962000))
+;;;### (autoloads nil nil ("tangotango-theme-pkg.el") (21462 45442
+;;;;;;  903500 12000))
 
 ;;;***
 
