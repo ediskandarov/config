@@ -91,7 +91,7 @@
 (setq python-shell-interpreter "ipython3")
 ;(elpy-use-ipython)
 (setq elpy-rpc-python-command "python3")
-(setq elpy-rpc-backend "rope")
+(setq elpy-rpc-backend "jedi")
 (elpy-enable)
 (define-key python-mode-map (kbd "C-;")  'iedit-mode)
 (define-key global-map (kbd "C-x C-b") 'ibuffer)
