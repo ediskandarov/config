@@ -8,3 +8,4 @@ config/.emacs.d/autosave
 config/.emacs.d/backup
 config/.emacs.d/projectile-bookmarks.eld
 *.log
+__pycache__
