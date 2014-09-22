@@ -4,6 +4,7 @@ import os
 import sys
 from pathlib import Path
 
+
 def main(argv):
     src = Path(argv[0]).parent.resolve() / 'config'
     dst = Path(os.environ['HOME']).resolve()
