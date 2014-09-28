@@ -3,9 +3,17 @@
 import os
 import sys
 from pathlib import Path
+import argparse
+
+
+parser = argparse.ArgumentParser(description="Config installer")
+parser.add_argument('-f', '--force', default=False,
+                    action='store_true',
+                    help="force symlink creation")
 
 
 def main(argv):
+    args = parser.parse_args(argv[1:])
     src = Path(argv[0]).parent.resolve() / 'config'
     dst = Path(os.environ['HOME']).resolve()
     print(src)
@@ -17,7 +25,8 @@ def main(argv):
         fulldst = dst / name
         if fulldst.exists():
             print(fulldst, 'already exists')
-            doit = False
+            if not args.force:
+                doit = False
         else:
             pairs.append((fullsrc, fulldst))
     if doit:
