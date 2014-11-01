@@ -25,11 +25,9 @@
 ; space-mark tab-mark newline-mark
 
 
-(progn
-  (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))  ;; no toolbar
-  (menu-bar-mode nil) ;;no menubar
-  (scroll-bar-mode nil) ;; no scroll bar
-  )
+(menu-bar-mode -1) ;;no menubar
+(scroll-bar-mode -1) ;; no scroll bar
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
