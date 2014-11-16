@@ -4,9 +4,14 @@
 
 
 ;;;### (autoloads (projectile-global-mode projectile-mode projectile-mode-line
-;;;;;;  projectile-commander) "projectile" "projectile.el" (21599
-;;;;;;  19237 107647 928000))
+;;;;;;  projectile-commander projectile-kill-buffers) "projectile"
+;;;;;;  "projectile.el" (21608 35260 32085 560000))
 ;;; Generated autoloads from projectile.el
+
+(autoload 'projectile-kill-buffers "projectile" "\
+Kill all project buffers.
+
+\(fn)" t nil)
 
 (autoload 'projectile-commander "projectile" "\
 Execute a Projectile command with a single letter.
@@ -70,8 +75,8 @@ See `projectile-mode' for more information on Projectile mode.
 
 ;;;***
 
-;;;### (autoloads nil nil ("projectile-pkg.el") (21599 19237 132348
-;;;;;;  981000))
+;;;### (autoloads nil nil ("projectile-pkg.el") (21608 35260 46839
+;;;;;;  647000))
 
 ;;;***
 

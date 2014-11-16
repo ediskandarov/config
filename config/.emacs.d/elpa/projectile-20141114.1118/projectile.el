@@ -5,7 +5,7 @@
 ;; Author: Bozhidar Batsov <bozhidar@batsov.com>
 ;; URL: https://github.com/bbatsov/projectile
 ;; Keywords: project, convenience
-;; Version: 20141105.225
+;; Version: 20141114.1118
 ;; X-Original-Version: 0.11.0
 ;; Package-Requires: ((s "1.6.0") (dash "1.5.0") (pkg-info "0.4"))
 
@@ -161,6 +161,11 @@ Otherwise consider the current directory the project root."
   :type 'symbol
   :options '(default recentf recently-active access-time modification-time))
 
+(defcustom projectile-verbose t
+  "Echo messages that are not errors."
+  :group 'projectile
+  :type 'boolean)
+
 (defcustom projectile-buffers-filter-function nil
   "A function used to filter the buffers in `projectile-project-buffers'.
 
@@ -179,6 +184,7 @@ and `projectile-buffers-with-file-or-process'."
     "build.gradle"       ; Gradle project file
     "Gemfile"            ; Bundler file
     "requirements.txt"   ; Pip file
+    "tox.ini"            ; Tox file
     "package.json"       ; npm package file
     "gulpfile.js"        ; Gulp build file
     "Gruntfile.js"       ; Grunt project file
@@ -462,8 +468,9 @@ to invalidate."
     (setq projectile-project-root-cache (make-hash-table :test 'equal))
     (remhash project-root projectile-projects-cache)
     (projectile-serialize-cache)
-    (message "Invalidated Projectile cache for %s."
-             (propertize project-root 'face 'font-lock-keyword-face))))
+    (when projectile-verbose
+      (message "Invalidated Projectile cache for %s."
+               (propertize project-root 'face 'font-lock-keyword-face)))))
 
 (defun projectile-cache-project (project files)
   "Cache PROJECTs FILES.
@@ -484,7 +491,8 @@ The cache is created both in memory and on the hard drive."
         (progn
           (puthash project-root (remove file project-cache) projectile-projects-cache)
           (projectile-serialize-cache)
-          (message "%s removed from cache" file))
+          (when projectile-verbose
+            (message "%s removed from cache" file)))
       (error "%s is not in the cache" file))))
 
 (defun projectile-purge-dir-from-cache (dir)
@@ -511,16 +519,19 @@ The cache is created both in memory and on the hard drive."
   (let* ((current-project (projectile-project-root))
          (abs-current-file (buffer-file-name (current-buffer)))
          (current-file (file-relative-name abs-current-file current-project)))
-    (unless (or (projectile-file-cached-p current-file current-project)
-                (projectile-ignored-directory-p (file-name-directory abs-current-file))
-                (projectile-ignored-file-p abs-current-file))
-      (puthash current-project
-               (cons current-file (gethash current-project projectile-projects-cache))
-               projectile-projects-cache)
-      (projectile-serialize-cache)
-      (message "File %s added to project %s cache."
-               (propertize current-file 'face 'font-lock-keyword-face)
-               (propertize current-project 'face 'font-lock-keyword-face)))))
+    (if (gethash (projectile-project-root) projectile-projects-cache)
+        (unless (or (projectile-file-cached-p current-file current-project)
+                    (projectile-ignored-directory-p (file-name-directory abs-current-file))
+                    (projectile-ignored-file-p abs-current-file))
+          (puthash current-project
+                   (cons current-file (gethash current-project projectile-projects-cache))
+                   projectile-projects-cache)
+          (projectile-serialize-cache)
+          (message "File %s added to project %s cache."
+                   (propertize current-file 'face 'font-lock-keyword-face)
+                   (propertize current-project 'face 'font-lock-keyword-face)))
+      (message "Empty cache. Projectile is initializing cache...")
+      (projectile-current-project-files))))
 
 ;; cache opened files automatically to reduce the need for cache invalidation
 (defun projectile-cache-files-find-file-hook ()
@@ -562,22 +573,6 @@ Returns nil if no window configuration was found"
   (let ((window-config (projectile-get-window-config project-name)))
     (when window-config
       (set-window-configuration window-config))))
-
-(defadvice projectile-switch-project (before projectile-save-window-configuration-before-switching-projects activate)
-  "Save the current project's window configuration before switching projects."
-  (when (and projectile-remember-window-configs
-             (projectile-project-p))
-    (projectile-save-window-config (projectile-project-name))))
-
-(defadvice projectile-kill-buffers (before projectile-remove-window-configuration-before-kill-buffers activate)
-  "Remove's this project's window configuration from the table before killing buffers."
-  (remhash (projectile-project-name) projectile-window-config-map))
-
-(defadvice projectile-kill-buffers (after projectile-restore-window-configuration-after-kill-buffers activate)
-  "Restore previous (if any) project's window configuration after killing a project's buffers."
-  (when (and projectile-remember-window-configs
-             (projectile-project-p))
-    (projectile-restore-window-config (projectile-project-name))))
 
 (defadvice delete-file (before purge-from-projectile-cache (filename &optional trash))
   (if (and projectile-enable-caching (projectile-project-p))
@@ -1651,6 +1646,18 @@ PROJECT-ROOT is the targeted directory. If nil, use
    ((member project-type '(maven symfony)) "Test")
    ((member project-type '(gradle grails)) "Spec")))
 
+(defun projectile-dirname-matching-count (file file-other)
+  "Count matching dirnames ascending file paths."
+  (length
+   (--take-while it (-zip-with 's-equals?
+                               (reverse (f-split (f-dirname file)))
+                               (reverse (f-split (f-dirname file-other)))))))
+
+(defun projectile-group-file-candidates (file candidates)
+  "Group file candidates by dirname matching count."
+  (--sort (> (car it) (car other))
+          (--group-by (projectile-dirname-matching-count file it) candidates)))
+
 (defun projectile-find-matching-test (file)
   "Compute the name of the test matching FILE."
   (let* ((basename (file-name-nondirectory (file-name-sans-extension file)))
@@ -1663,7 +1670,10 @@ PROJECT-ROOT is the targeted directory. If nil, use
     (cond
      ((null candidates) nil)
      ((= (length candidates) 1) (car candidates))
-     (t (projectile-completing-read "Switch to: " candidates)))))
+     (t (let ((grouped-candidates (projectile-group-file-candidates file candidates)))
+          (if (= (length (car grouped-candidates)) 2)
+              (-last-item (car grouped-candidates))
+            (projectile-completing-read "Switch to: " (--mapcat (cdr it) grouped-candidates))))))))
 
 (defun projectile-find-matching-file (test-file)
   "Compute the name of a file matching TEST-FILE."
@@ -1677,7 +1687,10 @@ PROJECT-ROOT is the targeted directory. If nil, use
     (cond
      ((null candidates) nil)
      ((= (length candidates) 1) (car candidates))
-     (t (projectile-completing-read "Switch to: " candidates)))))
+     (t (let ((grouped-candidates (projectile-group-file-candidates test-file candidates)))
+          (if (= (length (car grouped-candidates)) 2)
+              (-last-item (car grouped-candidates))
+            (projectile-completing-read "Switch to: " (--mapcat (cdr it) grouped-candidates))))))))
 
 (defun projectile-grep-default-files ()
   "Try to find a default pattern for `projectile-grep'.
@@ -1912,7 +1925,7 @@ files in the project."
     (-reject 'file-directory-p
              (-map 'projectile-expand-root (projectile-dir-files directory)))))
 
-(defun projectile-replace (arg)
+(defun projectile-replace (&optional arg)
   "Replace a string in the project using `tags-query-replace'.
 
 With a prefix argument ARG prompts you for a directory on which
@@ -1934,19 +1947,22 @@ to run the replacement."
   "Get the symbol at point and strip its properties."
   (substring-no-properties (or (thing-at-point 'symbol) "")))
 
+;;;###autoload
 (defun projectile-kill-buffers ()
   "Kill all project buffers."
   (interactive)
-  (let* ((buffers (projectile-project-buffers))
-         (question
-          (format
-           "Are you sure you want to kill %d buffer(s) for '%s'? "
-           (length buffers)
-           (projectile-project-name))))
-    (if (yes-or-no-p question)
+  (let ((name (projectile-project-name))
+        (buffers (projectile-project-buffers)))
+    (remhash name projectile-window-config-map)
+    (if (yes-or-no-p
+         (format "Are you sure you want to kill %d buffer(s) for '%s'? "
+                 (length buffers) name))
         ;; we take care not to kill indirect buffers directly
         ;; as we might encounter them after their base buffers are killed
-        (mapc 'kill-buffer (-remove 'buffer-base-buffer buffers)))))
+        (mapc 'kill-buffer (-remove 'buffer-base-buffer buffers)))
+    (when (and projectile-remember-window-configs
+               (projectile-project-p))
+      (projectile-restore-window-config name))))
 
 (defun projectile-save-project-buffers ()
   "Save all project buffers."
@@ -2193,12 +2209,14 @@ Invokes the command referenced by `projectile-switch-project-action' on switch.
 With a prefix ARG invokes `projectile-commander' instead of
 `projectile-switch-project-action.'"
   (interactive "P")
-  (let ((relevant-projects (projectile-relevant-known-projects)))
-    (if relevant-projects
-        (projectile-switch-project-by-name
-         (projectile-completing-read "Switch to project: " relevant-projects)
-         arg)
-      (error "There are no known projects"))))
+  (when (and projectile-remember-window-configs
+             (projectile-project-p))
+    (projectile-save-window-config (projectile-project-name)))
+  (-if-let (projects (projectile-relevant-known-projects))
+      (projectile-switch-project-by-name
+       (projectile-completing-read "Switch to project: " projects)
+       arg)
+    (error "There are no known projects")))
 
 (defun projectile-switch-project-by-name (project-to-switch &optional arg)
   "Switch to project by project name PROJECT-TO-SWITCH.
@@ -2289,7 +2307,8 @@ It handles the case of remote files as well. See `projectile-cleanup-known-proje
   (setq projectile-known-projects
         (--reject (string= project it) projectile-known-projects))
   (projectile-save-known-projects)
-  (message "Project %s removed from the list of known projects." project))
+  (when projectile-verbose
+    (message "Project %s removed from the list of known projects." project)))
 
 (defun projectile-remove-current-project-from-known-projects ()
   "Remove the current project from the list of known projects."
