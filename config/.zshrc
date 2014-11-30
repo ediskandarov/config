@@ -51,7 +51,7 @@ source ~/.local/bin/virtualenvwrapper.sh
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git git-fast coffee copydir copyfile cp emacs encode64 python tmux pip pep8 sudo supervisor mercurial rsync npm node virtualenv virtualenvwrapper history-substring-search battery command-not-found themes)
+plugins=(git git-fast coffee copydir copyfile cp emacs encode64 python tmux pip pep8 sudo supervisor mercurial rsync npm node virtualenv virtualenvwrapper history-substring-search battery command-not-found themes z)
 
 source $ZSH/oh-my-zsh.sh
 
