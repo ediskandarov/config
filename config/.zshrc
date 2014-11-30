@@ -41,11 +41,16 @@ ZSH_THEME="robbyrussell"
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
+export WORKON_HOME=~/projects/envs
+export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
+source ~/.local/bin/virtualenvwrapper.sh
+
+
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git coffee copydir copyfile cp emacs encode64 python tmux pip pep8 sudo supervisor mercurial rsync npm node)
+plugins=(git coffee copydir copyfile cp emacs encode64 python tmux pip pep8 sudo supervisor mercurial rsync npm node virtualenv virtualenvwrapper history-substring-search)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -80,7 +85,3 @@ fi
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 source /etc/zsh_command_not_found
-
-export WORKON_HOME=~/projects/envs
-export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
-source ~/.local/bin/virtualenvwrapper.sh
