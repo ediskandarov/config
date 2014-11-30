@@ -5,7 +5,8 @@ export ZSH=$HOME/.oh-my-zsh
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-ZSH_THEME="robbyrussell"
+# ZSH_THEME="af-magic"
+ZSH_THEME="fletcherm"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -50,7 +51,7 @@ source ~/.local/bin/virtualenvwrapper.sh
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git coffee copydir copyfile cp emacs encode64 python tmux pip pep8 sudo supervisor mercurial rsync npm node virtualenv virtualenvwrapper history-substring-search)
+plugins=(git coffee copydir copyfile cp emacs encode64 python tmux pip pep8 sudo supervisor mercurial rsync npm node virtualenv virtualenvwrapper history-substring-search battery command-not-found themes)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -83,5 +84,3 @@ fi
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-
-source /etc/zsh_command_not_found
