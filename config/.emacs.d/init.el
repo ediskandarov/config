@@ -13,9 +13,9 @@
 
 (setq grep-highlight-matches t)
 
-(setq tab-width 4
-      whitespace-style '(face tabs spaces trailing lines space-before-tab newline indentation empty space-after-tab)
-      whitespace-line-column 80)
+ (setq tab-width 4
+       whitespace-style '(face tabs spaces trailing lines space-before-tab newline indentation  empty space-after-tab)
+       whitespace-line-column 80)
 
 
 (setq c-basic-offset 4)
@@ -33,7 +33,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ansi-color-names-vector ["#2e3436" "#a40000" "#4e9a06" "#c4a000" "#204a87" "#5c3566" "#729fcf" "#eeeeec"])
  '(column-number-mode t)
+ '(custom-safe-themes (quote ("49e5a7955b853f70d1fe751b2f896921398b273aa62f47bda961a45f80219581" "256ab343f4935915bf640ead48582bd9ca86c1afe9b17ab84a327b02a60b2698" default)))
  '(default-input-method "russian-computer")
  '(delete-old-versions t)
  '(frame-background-mode (quote dark))
@@ -232,5 +234,8 @@ This will call Python in the background and initialize
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "#2e3434" :foreground "#eeeeec" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 130 :width normal :foundry "unknown" :family "DejaVu Sans Mono")))))
+ '(default ((t (:inherit nil :stipple nil :background "#2e3434" :foreground "#eeeeec" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 130 :width normal :foundry "unknown" :family "DejaVu Sans Mono"))))
+ '(highlight-indentation-face ((t (:inherit fringe :background "#2e3434"))))
+ '(whitespace-hspace ((t (:background "grey24" :foreground "darkgray"))))
+ '(whitespace-space ((t (:background "#2e3434" :foreground "darkgray")))))
 
