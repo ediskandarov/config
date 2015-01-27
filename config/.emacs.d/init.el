@@ -14,7 +14,8 @@
 (setq grep-highlight-matches t)
 
  (setq tab-width 4
-       whitespace-style '(face tabs spaces trailing lines space-before-tab newline indentation  empty space-after-tab)
+       whitespace-style '(face tabs spaces trailing lines space-before-tab
+                          newline indentation  empty space-after-tab)
        whitespace-line-column 80)
 
 
