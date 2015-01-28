@@ -9,7 +9,25 @@
 (add-to-list 'load-path "~/.emacs.d/")
 
 (setq inhibit-splash-screen t) ;; no splash screen
-(setq column-number-mode t)
+(column-number-mode t)
+(menu-bar-mode -1) ;;no menubar
+(scroll-bar-mode -1) ;; no scroll bar
+(tool-bar-mode -1)
+(setq save-interprogram-paste-before-kill t)
+(setq scroll-step 1)
+(setq size-indication-mode t)
+(setq x-select-enable-clipboard t)
+(setq x-select-enable-primary nil)
+(setq default-input-method "russian-computer")
+(setq frame-background-mode (quote dark))
+(setq indent-tabs-mode nil)
+(setq kill-do-not-save-duplicates t)
+(setq kill-ring-max 10000)
+(setq kill-whole-line t)
+(setq make-backup-files nil)
+(setq mouse-wheel-progressive-speed nil)
+(setq mouse-wheel-scroll-amount (quote (1 ((shift) . 1) ((control)))))
+
 
 (setq grep-highlight-matches t)
 
@@ -26,34 +44,14 @@
 ; space-mark tab-mark newline-mark
 
 
-(menu-bar-mode -1) ;;no menubar
-(scroll-bar-mode -1) ;; no scroll bar
-
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(ansi-color-names-vector ["#2e3436" "#a40000" "#4e9a06" "#c4a000" "#204a87" "#5c3566" "#729fcf" "#eeeeec"])
- '(column-number-mode t)
  '(custom-safe-themes (quote ("49e5a7955b853f70d1fe751b2f896921398b273aa62f47bda961a45f80219581" "256ab343f4935915bf640ead48582bd9ca86c1afe9b17ab84a327b02a60b2698" default)))
- '(default-input-method "russian-computer")
- '(delete-old-versions t)
- '(frame-background-mode (quote dark))
- '(indent-tabs-mode nil)
- '(kill-do-not-save-duplicates t)
- '(kill-ring-max 10000)
- '(kill-whole-line t)
- '(make-backup-files nil)
- '(mouse-wheel-progressive-speed nil)
- '(mouse-wheel-scroll-amount (quote (1 ((shift) . 1) ((control)))))
- '(safe-local-variable-values (quote ((require-final-newline) (test-case-name . twisted\.trial\.test) (test-case-name . twisted\.test\.test_internet\,twisted\.internet\.test\.test_posixbase) (test-case-name . twisted\.test\.test_ssl) (test-case-name . twisted\.test\.test_stdio) (test-case-name . twisted\.test\.test_fdesc) (encoding . utf-8) (test-case-name . twisted) (test-case-name . twisted\.test\.test_failure) (test-case-name . twisted\.test\.test_defer\,twisted\.test\.test_defgen\,twisted\.internet\.test\.test_inlinecb) (test-case-name . twisted\.test\.test_process) (test-case-name . twisted\.test\.test_iutils) (test-case-name . twisted\.words\.test\.test_jabbercomponent) (test-case-name . twisted\.words\.test\.test_jabberclient) (test-case-name . twisted\.test\.test_abstract) (test-case-name . twisted\.internet\.test\.test_pollingfile) (test-case-name . twisted\.test\.test_task\,twisted\.test\.test_cooperator) (test-case-name . twisted\.internet\.test\.test_inotify) (test-case-name . twisted\.test\.test_internet) (test-case-name . twisted\.web\.test\.test_xmlrpc))))
- '(save-interprogram-paste-before-kill t)
- '(scroll-step 1)
- '(size-indication-mode t)
- '(tool-bar-mode nil)
- '(x-select-enable-clipboard t)
- '(x-select-enable-primary nil))
+ '(safe-local-variable-values (quote ((require-final-newline) (test-case-name . twisted\.trial\.test) (test-case-name . twisted\.test\.test_internet\,twisted\.internet\.test\.test_posixbase) (test-case-name . twisted\.test\.test_ssl) (test-case-name . twisted\.test\.test_stdio) (test-case-name . twisted\.test\.test_fdesc) (encoding . utf-8) (test-case-name . twisted) (test-case-name . twisted\.test\.test_failure) (test-case-name . twisted\.test\.test_defer\,twisted\.test\.test_defgen\,twisted\.internet\.test\.test_inlinecb) (test-case-name . twisted\.test\.test_process) (test-case-name . twisted\.test\.test_iutils) (test-case-name . twisted\.words\.test\.test_jabbercomponent) (test-case-name . twisted\.words\.test\.test_jabberclient) (test-case-name . twisted\.test\.test_abstract) (test-case-name . twisted\.internet\.test\.test_pollingfile) (test-case-name . twisted\.test\.test_task\,twisted\.test\.test_cooperator) (test-case-name . twisted\.internet\.test\.test_inotify) (test-case-name . twisted\.test\.test_internet) (test-case-name . twisted\.web\.test\.test_xmlrpc)))))
 
 
 
