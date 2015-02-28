@@ -39,7 +39,7 @@
 
 (setq c-basic-offset 4)
 (show-paren-mode 1)
- (setq show-paren-delay 0)
+(setq show-paren-delay 0)
 (setq global-whitespace-mode t)
 ; space-mark tab-mark newline-mark
 
@@ -63,7 +63,7 @@
 
 (require 'flx-ido)
 (setq ido-enable-flex-matching t)
-(setq ido-use-filename-at-point 'guess)
+;(setq ido-use-filename-at-point 'guess)
 (ido-mode t)
 (ido-everywhere t)
 (flx-ido-mode t)
