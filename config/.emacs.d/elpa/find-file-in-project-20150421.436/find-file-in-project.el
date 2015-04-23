@@ -5,7 +5,7 @@
 ;; Author: Phil Hagelberg, Doug Alcorn, and Will Farrington
 ;; Maintainer: Chen Bin <chenbin.sh@gmail.com>
 ;; URL: http://www.emacswiki.org/cgi-bin/wiki/FindFileInProject
-;; Package-Version: 20150419.713
+;; Package-Version: 20150421.436
 ;; Git: git://github.com/technomancy/find-file-in-project.git
 ;; Version: 3.5
 ;; Created: 2008-03-18
@@ -101,6 +101,7 @@ May be set using .dir-locals.el. Checks each entry if set to a list.")
     ".hg"
     "cscope.files"
     "*.log"
+	"dist"
     "target"
     "node_modules"
     "bower_components"
@@ -143,6 +144,8 @@ This overrides variable `ffip-project-root' when set.")
 
 (defvar ffip-full-paths t
   "If non-nil, show fully project-relative paths.")
+
+(defvar ffip-debug nil "Print debug information")
 
 (defun ffip-project-root ()
   "Return the root of the project."
@@ -225,6 +228,8 @@ directory they are found in so that they are unique."
                       (ffip-prune-patterns) (ffip-join-patterns)
                       (if keyword (concat "-name \"*" keyword "*\"") "")
                       ffip-find-options (ffip-limit-find-results)))
+
+    (if ffip-debug (message "run cmd at %s: %s" default-directory cmd))
     (setq rlt
           (mapcar (lambda (file)
                     (if ffip-full-paths

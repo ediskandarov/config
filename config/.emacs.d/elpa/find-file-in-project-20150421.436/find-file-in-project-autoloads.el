@@ -5,7 +5,7 @@
 
 ;;;### (autoloads (find-file-in-project-by-selected find-file-in-project
 ;;;;;;  ffip-current-full-filename-match-pattern-p) "find-file-in-project"
-;;;;;;  "find-file-in-project.el" (21811 55034 397554 996000))
+;;;;;;  "find-file-in-project.el" (21816 63864 486681 972000))
 ;;; Generated autoloads from find-file-in-project.el
 
 (autoload 'ffip-current-full-filename-match-pattern-p "find-file-in-project" "\
@@ -42,8 +42,8 @@ If no region is selected, you need provide one.
 
 ;;;***
 
-;;;### (autoloads nil nil ("find-file-in-project-pkg.el") (21811
-;;;;;;  55034 419544 65000))
+;;;### (autoloads nil nil ("find-file-in-project-pkg.el") (21816
+;;;;;;  63864 499622 35000))
 
 ;;;***
 

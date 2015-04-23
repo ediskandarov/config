@@ -4,7 +4,7 @@
 
 
 ;;;### (autoloads (csharp-mode csharp-want-imenu csharp-mode-hook)
-;;;;;;  "csharp-mode" "csharp-mode.el" (21775 11035 424974 624000))
+;;;;;;  "csharp-mode" "csharp-mode.el" (21816 63865 494681 990000))
 ;;; Generated autoloads from csharp-mode.el
 
 (defvar csharp-mode-hook nil "\
@@ -71,8 +71,8 @@ Key bindings:
 
 ;;;***
 
-;;;### (autoloads nil nil ("csharp-mode-pkg.el") (21775 11035 446830
-;;;;;;  831000))
+;;;### (autoloads nil nil ("csharp-mode-pkg.el") (21816 63865 521231
+;;;;;;  655000))
 
 ;;;***
 

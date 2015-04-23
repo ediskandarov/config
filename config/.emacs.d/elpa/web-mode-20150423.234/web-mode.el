@@ -3,8 +3,8 @@
 
 ;; Copyright 2011-2015 François-Xavier Bois
 
-;; Version: 11.0.35
-;; Package-Version: 20150419.323
+;; Version: 11.0.41
+;; Package-Version: 20150423.234
 ;; Author: François-Xavier Bois <fxbois AT Google Mail Service>
 ;; Maintainer: François-Xavier Bois
 ;; Created: July 2011
@@ -27,7 +27,7 @@
 
 ;;---- CONSTS ------------------------------------------------------------------
 
-(defconst web-mode-version "11.0.35"
+(defconst web-mode-version "11.0.41"
   "Web Mode version.")
 
 ;;---- GROUPS ------------------------------------------------------------------
@@ -128,16 +128,6 @@
   "Control blocks increase indentation."
   :type 'boolean
   :group 'web-mode)
-
-;; (defcustom web-mode-enable-block-partial-invalidation t
-;;   "Partial invalidation in blocks (php and asp at the moment)."
-;;   :type 'boolean
-;;   :group 'web-mode)
-
-;; (defcustom web-mode-enable-part-partial-invalidation t
-;;   "Partial invalidation in js/css parts."
-;;   :type 'boolean
-;;   :group 'web-mode)
 
 (defcustom web-mode-enable-current-element-highlight nil
   "Disable element highlight."
@@ -557,6 +547,16 @@ Must be used in conjunction with web-mode-enable-block-face."
   "Face for parts."
   :group 'web-mode-faces)
 
+(defface web-mode-script-face
+  '((t :inherit web-mode-part-face))
+  "Face for javascript inside a script element."
+  :group 'web-mode-faces)
+
+(defface web-mode-style-face
+  '((t :inherit web-mode-part-face))
+  "Face for css inside a style element."
+  :group 'web-mode-faces)
+
 (defface web-mode-folded-face
   '((t :underline t))
   "Overlay face for folded."
@@ -871,9 +871,12 @@ Must be used in conjunction with web-mode-enable-block-face."
     ("g/" . "<strong>|</strong>")
     ("h/" . "<h1>|</h1>")
     ("i/" . "<img src=\"|\" />")
+    ("j/" . "<script>|</script>")
     ("l/" . "<li>|</li>")
+    ("m/" . "<main>|</main>")
     ("n/" . "<input type=\"|\" />")
     ("p/" . "<p>|</p>")
+    ("q/" . "<quote>|</quote>")
     ("s/" . "<span>|</span>")
     ("t/" . "<td>|</td>")
     ("u/" . "<ul><li>|</li><li></li></ul>")
@@ -952,8 +955,8 @@ Must be used in conjunction with web-mode-enable-block-face."
     ("underscore"  . (("<% " . " %>")))
     ("web2py"      . (("{{ " . " }}")
                       ("{{=" . "}}")))
-    (nil           . (("<!-" . "- | -->"))))
-  "Engines auto-pairs")
+    (nil           . (("<!-" . "- | -->")))
+    ))
 
 (defvar web-mode-engines-snippets
   '(("ejs" . (("for"     . "<% for (|) { %>\n\n<% } %>")
@@ -985,8 +988,7 @@ Must be used in conjunction with web-mode-enable-block-face."
             ("table" . "<table><tbody>\n<tr>\n<td>|</td>\n<td></td>\n</tr>\n</tbody></table>")
             ("ul"    . "<ul>\n<li>|</li>\n<li></li>\n</ul>")
             ))
-    )
-  "Engines snippets")
+    ))
 
 (defvar web-mode-engine-token-regexps
   (list
@@ -2796,7 +2798,6 @@ the environment as needed for ac-sources, right before they're used.")
                   pos (point)))
            ) ;cond
 
-;;          (message "close=%S reg-end=%S pos=%S" close reg-end pos)
           (when (and close (>= reg-end pos))
             ;;(message "pos(%S) : open(%S) close(%S)" pos open close)
             (put-text-property open (1+ open) 'block-beg 0)
@@ -3309,8 +3310,7 @@ the environment as needed for ac-sources, right before they're used.")
       (setq controls (web-mode-block-controls-reduce controls)))
     controls))
 
-;;todo
-;; nettoyer
+;; todo : clean
 ;; <?php if (): echo $x; endif; ?>
 ;; ((open . "if") (close . "if"))
 ;; -> nil
@@ -3387,7 +3387,7 @@ the environment as needed for ac-sources, right before they're used.")
           (setq controls (append controls (list (cons 'inside "ctrl")))))
          ((web-mode-block-starts-with "end" reg-beg)
           (setq controls (append controls (list (cons 'close "ctrl")))))
-         ((and (web-mode-block-starts-with ".* do \\|for\\|if\\|unless\\|case" reg-beg)
+         ((and (web-mode-block-starts-with "\\(.* do\\|for\\|if\\|unless\\|case\\)\\>" reg-beg)
                (not (web-mode-block-ends-with "end" reg-end)))
           (setq controls (append controls (list (cons 'open "ctrl")))))
          )
@@ -4702,12 +4702,7 @@ the environment as needed for ac-sources, right before they're used.")
          ;;       Indeed, parts must be identified asap.
          ((and (progn (back-to-indentation) t)
                (get-text-property (point) 'tag-beg)
-               (eq (get-text-property (point) 'tag-type) 'start)
-               ;;(or (get-text-property (point) 'tag-beg)
-               ;;    (not (get-text-property (point) 'tag-type)))
-               ;;(not (get-text-property (point) 'part-side))
-               ;;(not (get-text-property (point) 'block-side))
-               )
+               (eq (get-text-property (point) 'tag-type) 'start))
           (setq pos (point)
                 continue nil))
          (t
@@ -4747,33 +4742,13 @@ the environment as needed for ac-sources, right before they're used.")
 
 (defun web-mode-font-lock-highlight (limit)
   ;;(message "font-lock-highlight: point(%S) limit(%S) change-beg(%S) change-end(%S)" (point) limit web-mode-change-beg web-mode-change-end)
-  (let (
-        ;;(inhibit-modification-hooks t)
-        ;;(buffer-undo-list t)
-        ;;(region nil)
-        )
-    ;; (cond
-    ;;  (web-mode-inhibit-fontification
-    ;;   )
-    ;;  ((and web-mode-change-beg web-mode-change-end)
-    ;;   (setq region (web-mode-propertize))
-    ;;   )
-    ;;  (t
-    ;;   (setq region (web-mode-propertize (point) limit)))
-    ;;  ) ;cond
-    ;; (when (and region (car region))
-    ;;   (web-mode-highlight-region (car region) (cdr region)))
-    (cond
-     (web-mode-inhibit-fontification
-      )
-     (t ;;(and web-mode-change-beg web-mode-change-end)
-      ;;(web-mode-highlight-region web-mode-change-beg web-mode-change-end)
-      ;;(message "point-before=%S" (point))
-      (web-mode-highlight-region (point) limit)
-      ;;(message "point-after=%S" (point))
-      )
-     )
-    nil))
+  (cond
+   (web-mode-inhibit-fontification
+    nil)
+   (t
+    (web-mode-highlight-region (point) limit)
+    nil)
+   ))
 
 (defun web-mode-buffer-highlight ()
   (interactive)
@@ -4790,7 +4765,7 @@ the environment as needed for ac-sources, right before they're used.")
   ;;        font-lock-end web-mode-change-end)
   (cond
    (web-mode-inhibit-fontification
-    )
+    nil)
    (t ;;(and web-mode-change-beg web-mode-change-end)
     (when (or (null web-mode-change-beg) (< font-lock-beg web-mode-change-beg))
       ;;(message "font-lock-beg(%S) < web-mode-change-beg(%S)" font-lock-beg web-mode-change-beg)
@@ -4808,11 +4783,8 @@ the environment as needed for ac-sources, right before they're used.")
               )
         ) ;when
       ) ;let
-    ) ;t
-   ;;(t
-   ;; (setq region (web-mode-propertize font-lock-beg font-lock-end)))
-   ) ;cond
-  nil)
+    nil) ;t
+   ))
 
 (defun web-mode-unfontify-region (beg end)
   ;;(message "unfontify: %S %S" beg end)
@@ -5232,8 +5204,12 @@ the environment as needed for ac-sources, right before they're used.")
                    (> (- end beg) 3))
           (web-mode-interpolate-comment beg end t))
         ) ;while
-      (when web-mode-enable-part-face
-        (font-lock-append-text-property reg-beg reg-end 'face 'web-mode-part-face))
+      (when (and (string= web-mode-content-type "html") web-mode-enable-part-face)
+        (font-lock-append-text-property reg-beg reg-end 'face
+                                        (if (string= content-type "javascript")
+                                            'web-mode-script-face
+                                          'web-mode-style-face))
+        )
       (when (string= content-type "jsx")
         (goto-char reg-beg)
         ;;(web-mode-highlight-tags reg-beg reg-end)
@@ -6354,6 +6330,8 @@ the environment as needed for ac-sources, right before they're used.")
             )
            (web-mode-attr-indent-offset
             (setq offset (+ (current-column) web-mode-attr-indent-offset)))
+           ((string-match-p "^/>" curr-line)
+            (setq offset (current-column)))
            (t
             (let ((skip (next-single-property-change (point) 'tag-attr)))
               (when skip
@@ -6653,6 +6631,7 @@ the environment as needed for ac-sources, right before they're used.")
         (setq ret (web-mode-element-is-opened beg pos))
         (cond
          ((null ret)
+          ;;(message "ind=%S col=%S" (current-indentation) (current-column))
           (setq offset (current-indentation)))
          ((eq ret t)
           (setq offset (+ (current-indentation) web-mode-markup-indent-offset)))
@@ -7008,7 +6987,7 @@ the environment as needed for ac-sources, right before they're used.")
 (defun web-mode-markup-indentation-origin ()
   (let* ((continue (not (bobp)))
          (pos (point))
-         (part-side (not (null (get-text-property pos 'part-side))))
+         (part-side (not (null (get-text-property pos 'part-side)))) ;part-side at the origin
          (types '(start end void)))
     (while continue
       (forward-line -1)
@@ -7018,11 +6997,13 @@ the environment as needed for ac-sources, right before they're used.")
                               (and (null part-side)
                                    (null (get-text-property pos 'part-side))
                                    (get-text-property pos 'tag-beg)
-                                   (member (get-text-property pos 'tag-type) types))
+                                   (member (get-text-property pos 'tag-type) types)
+                                   (null (get-text-property (1- pos) 'invisible)))
                               (and part-side
                                    (get-text-property pos 'part-side)
                                    (get-text-property pos 'tag-beg)
-                                   (member (get-text-property pos 'tag-type) types))
+                                   (member (get-text-property pos 'tag-type) types)
+                                   (null (get-text-property (1- pos) 'invisible)))
                               (and (get-text-property pos 'block-beg)
                                    (not (get-text-property pos 'tag-type))
                                    (web-mode-block-is-control pos)
@@ -8693,6 +8674,8 @@ Pos should be in a tag."
 
     (when (and web-mode-expand-previous-state
                (not (eq this-command 'web-mode-mark-and-expand)))
+      (when (eq this-command 'keyboard-quit)
+        (goto-char web-mode-expand-initial-pos))
       (deactivate-mark)
       (setq web-mode-expand-previous-state nil
             web-mode-expand-initial-pos nil))
@@ -11069,25 +11052,3 @@ Pos should be in a tag."
 ;; coding: utf-8
 ;; indent-tabs-mode: nil
 ;; End:
-
-
-
-;; (defvar web-mode-engines-alternate-delimiters
-;;   (if (boundp 'web-mode-engines-alternate-delimiters)
-;;       web-mode-engines-alternate-delimiters
-;;     '())
-;;   "Engine delimiters. Useful for engines that provide alternate delimiters.")
-
-;; (defun web-mode-engine-delimiter-open (engine default)
-;;   "alternative open delimiter"
-;;   (let (delim)
-;;     (setq delim (car (cdr (assoc engine web-mode-engines-alternate-delimiters))))
-;;     (or delim default)
-;;   ))
-
-;; (defun web-mode-engine-delimiter-close (engine default)
-;;   "alternative close delimiter"
-;;   (let (delim)
-;;     (setq delim (cdr (cdr (assoc engine web-mode-engines-alternate-delimiters))))
-;;     (or delim default)
-;;     ))
