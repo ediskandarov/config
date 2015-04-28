@@ -1,22 +1,10 @@
 ;;; projectile-autoloads.el --- automatically extracted autoloads
 ;;
 ;;; Code:
-
+(add-to-list 'load-path (or (file-name-directory #$) (car load-path)))
 
-;;;### (autoloads (projectile-global-mode projectile-mode projectile-mode-line
-;;;;;;  projectile-commander projectile-remove-current-project-from-known-projects
-;;;;;;  projectile-clear-known-projects projectile-cleanup-known-projects
-;;;;;;  projectile-find-file-in-known-projects projectile-recentf
-;;;;;;  projectile-vc projectile-dired projectile-save-project-buffers
-;;;;;;  projectile-kill-buffers projectile-run-async-shell-command-in-root
-;;;;;;  projectile-run-shell-command-in-root projectile-run-command-in-root
-;;;;;;  projectile-find-tag projectile-regenerate-tags projectile-toggle-between-implementation-and-test
-;;;;;;  projectile-find-implementation-or-test-other-window projectile-find-file-other-window
-;;;;;;  projectile-find-file projectile-find-file-dwim-other-window
-;;;;;;  projectile-find-file-dwim projectile-multi-occur projectile-project-buffers-other-buffer
-;;;;;;  projectile-display-buffer projectile-switch-to-buffer-other-window
-;;;;;;  projectile-switch-to-buffer projectile-cache-current-file)
-;;;;;;  "projectile" "projectile.el" (21811 55029 337554 816000))
+;;;### (autoloads nil "projectile" "projectile.el" (21823 35040 520377
+;;;;;;  891000))
 ;;; Generated autoloads from projectile.el
 
 (autoload 'projectile-cache-current-file "projectile" "\
@@ -260,16 +248,9 @@ See `projectile-mode' for more information on Projectile mode.
 
 ;;;***
 
-;;;### (autoloads nil nil ("projectile-pkg.el") (21811 55029 363688
-;;;;;;  970000))
-
-;;;***
-
-(provide 'projectile-autoloads)
 ;; Local Variables:
 ;; version-control: never
 ;; no-byte-compile: t
 ;; no-update-autoloads: t
-;; coding: utf-8
 ;; End:
 ;;; projectile-autoloads.el ends here

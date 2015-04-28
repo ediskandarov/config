@@ -4,7 +4,7 @@
 
 ;; Author: Bozhidar Batsov <bozhidar@batsov.com>
 ;; URL: https://github.com/bbatsov/projectile
-;; Package-Version: 20150416.1401
+;; Package-Version: 20150428.158
 ;; Keywords: project, convenience
 ;; Version: 0.13.0-cvs
 ;; Package-Requires: ((dash "1.5.0") (pkg-info "0.4"))
@@ -502,7 +502,9 @@ to invalidate."
     (projectile-serialize-cache)
     (when projectile-verbose
       (message "Invalidated Projectile cache for %s."
-               (propertize project-root 'face 'font-lock-keyword-face)))))
+               (propertize project-root 'face 'font-lock-keyword-face))))
+  (when (fboundp 'recentf-cleanup)
+    (recentf-cleanup)))
 
 (defun projectile-cache-project (project files)
   "Cache PROJECTs FILES.
@@ -1119,8 +1121,8 @@ https://github.com/emacs-helm/helm")))
         (user-error "Please install grizzl from \
 https://github.com/d11wtq/grizzl")))
      ((eq projectile-completion-system 'ivy)
-      (if (fboundp 'ivy-read)
-          (ivy-read prompt choices nil initial-input)
+      (if (fboundp 'ivy-completing-read)
+          (ivy-completing-read prompt choices nil nil initial-input)
         (user-error "Please install ivy from \
 https://github.com/abo-abo/swiper")))
      (t (funcall projectile-completion-system prompt choices)))))
@@ -2122,13 +2124,11 @@ with a prefix ARG."
   (let* ((project-root (if dir
                            dir
                          (projectile-project-root)))
+         (default-directory project-root)
          (default-cmd (projectile-compilation-command project-root))
          (compilation-cmd (if (or compilation-read-command arg)
                               (compilation-read-command default-cmd)
-                            default-cmd))
-         (default-directory (if dir
-                                dir
-                              project-root)))
+                            default-cmd)))
     (puthash project-root compilation-cmd projectile-compilation-cmd-map)
     (compilation-start compilation-cmd)))
 

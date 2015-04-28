@@ -3,8 +3,8 @@
 
 ;; Copyright 2011-2015 François-Xavier Bois
 
-;; Version: 11.0.41
-;; Package-Version: 20150423.234
+;; Version: 11.1.00
+;; Package-Version: 20150424.144
 ;; Author: François-Xavier Bois <fxbois AT Google Mail Service>
 ;; Maintainer: François-Xavier Bois
 ;; Created: July 2011
@@ -27,7 +27,7 @@
 
 ;;---- CONSTS ------------------------------------------------------------------
 
-(defconst web-mode-version "11.0.41"
+(defconst web-mode-version "11.1.00"
   "Web Mode version.")
 
 ;;---- GROUPS ------------------------------------------------------------------
@@ -8673,7 +8673,8 @@ Pos should be in a tag."
     ;;(message "%S: %S %S" this-command web-mode-change-beg web-mode-change-end)
 
     (when (and web-mode-expand-previous-state
-               (not (eq this-command 'web-mode-mark-and-expand)))
+               (not (member this-command '(web-mode-mark-and-expand
+                                           er/expand-region))))
       (when (eq this-command 'keyboard-quit)
         (goto-char web-mode-expand-initial-pos))
       (deactivate-mark)
