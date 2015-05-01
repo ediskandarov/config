@@ -35,10 +35,10 @@
 
 (setq grep-highlight-matches t)
 
- (setq tab-width 4
-       whitespace-style '(face tabs spaces trailing lines space-before-tab
-                          newline indentation  empty space-after-tab)
-       whitespace-line-column 80)
+(setq tab-width 4
+    whitespace-style '(face tabs spaces trailing lines space-before-tab
+                       newline indentation  empty space-after-tab)
+    whitespace-line-column 80)
 
 
 (setq c-basic-offset 4)
@@ -53,8 +53,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ansi-color-names-vector ["#2e3436" "#a40000" "#4e9a06" "#c4a000" "#204a87" "#5c3566" "#729fcf" "#eeeeec"])
- '(custom-safe-themes (quote ("49e5a7955b853f70d1fe751b2f896921398b273aa62f47bda961a45f80219581" "256ab343f4935915bf640ead48582bd9ca86c1afe9b17ab84a327b02a60b2698" default)))
+; '(ansi-color-names-vector ["#2e3436" "#a40000" "#4e9a06" "#c4a000" "#204a87" "#5c3566" "#729fcf" "#eeeeec"])
+; '(custom-safe-themes (quote ("49e5a7955b853f70d1fe751b2f896921398b273aa62f47bda961a45f80219581" "256ab343f4935915bf640ead48582bd9ca86c1afe9b17ab84a327b02a60b2698" default)))
  '(safe-local-variable-values (quote ((require-final-newline) (test-case-name . twisted\.trial\.test) (test-case-name . twisted\.test\.test_internet\,twisted\.internet\.test\.test_posixbase) (test-case-name . twisted\.test\.test_ssl) (test-case-name . twisted\.test\.test_stdio) (test-case-name . twisted\.test\.test_fdesc) (encoding . utf-8) (test-case-name . twisted) (test-case-name . twisted\.test\.test_failure) (test-case-name . twisted\.test\.test_defer\,twisted\.test\.test_defgen\,twisted\.internet\.test\.test_inlinecb) (test-case-name . twisted\.test\.test_process) (test-case-name . twisted\.test\.test_iutils) (test-case-name . twisted\.words\.test\.test_jabbercomponent) (test-case-name . twisted\.words\.test\.test_jabberclient) (test-case-name . twisted\.test\.test_abstract) (test-case-name . twisted\.internet\.test\.test_pollingfile) (test-case-name . twisted\.test\.test_task\,twisted\.test\.test_cooperator) (test-case-name . twisted\.internet\.test\.test_inotify) (test-case-name . twisted\.test\.test_internet) (test-case-name . twisted\.web\.test\.test_xmlrpc)))))
 
 
@@ -211,8 +211,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "#2e3434" :foreground "#eeeeec" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 130 :width normal :foundry "unknown" :family "DejaVu Sans Mono"))))
+ '(default ((t (:background "#2e3434" :foreground "#eeeeec" :height 130 :family "DejaVu Sans Mono"))))
  '(highlight-indentation-face ((t (:inherit fringe :background "#2e3434"))))
- '(whitespace-hspace ((t (:background "grey24" :foreground "darkgray"))))
- '(whitespace-space ((t (:background "#2e3434" :foreground "darkgray")))))
+ '(whitespace-hspace ((t (:background "#2e3434"))))
+ '(whitespace-space ((t (:background "#2e3434")))))
 
