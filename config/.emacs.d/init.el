@@ -6,7 +6,7 @@
                          ("melpa" . "http://melpa.milkbox.net/packages/")))
 (package-initialize)
 
-(add-to-list 'load-path "~/.emacs.d/")
+; (add-to-list 'load-path "~/.emacs.d/")
 
 (setq inhibit-splash-screen t) ;; no splash screen
 (column-number-mode t)
