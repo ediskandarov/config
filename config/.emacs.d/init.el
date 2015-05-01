@@ -29,6 +29,10 @@
 (setq mouse-wheel-scroll-amount (quote (1 ((shift) . 1) ((control)))))
 
 
+; Fix control-M and control-J in emacs 24
+(electric-indent-mode 0)
+
+
 (setq grep-highlight-matches t)
 
  (setq tab-width 4
