@@ -6,9 +6,59 @@
                          ("melpa" . "http://melpa.milkbox.net/packages/")))
 (package-initialize)
 
+(when (not package-archive-contents)
+  (package-refresh-contents))
+
+(defvar my-packages
+  '(better-defaults
+    actionscript-mode
+    auto-complete
+    auto-complete-rst
+    coffee-mode
+    company
+    company-c-headers
+    company-go
+    csharp-mode
+    dash
+    dired+
+    dired-hacks-utils
+    dired-imenu
+    dired-rainbow
+    elpy
+    epl
+    fill-column-indicator
+    flx
+    flx-ido
+    flymake-lua
+    go-mode
+    go-projectile
+    go-eldoc
+    go-snippets
+    go-rename
+    grin
+    highlight-indentation
+    idomenu
+    iedit
+    lua-mode
+    markdown-mode
+    markdown-mode+
+    nose
+    pkg-info
+    projectile
+    pyvenv
+    tangotango-theme
+    web-mode
+    yasnippet))
+
+(mapc #'(lambda (package)
+    (unless (package-installed-p package)
+      (package-install package)))
+      my-packages)
+
 ; (add-to-list 'load-path "~/.emacs.d/")
 
 (setq inhibit-splash-screen t) ;; no splash screen
+(global-linum-mode t) ;; enable line numbers globally
 (column-number-mode t)
 (menu-bar-mode -1) ;;no menubar
 (scroll-bar-mode -1) ;; no scroll bar
