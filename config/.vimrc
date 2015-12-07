@@ -3,10 +3,10 @@ let g:pathogen_disabled = [ 'pathogen' ]    " don't load self
 call pathogen#infect()                      " load everyhting else
 call pathogen#helptags()                    " load plugin help files
 
-" code folding
-set foldmethod=indent
-set foldlevel=2
-set foldnestmax=4
+set tabstop=4
+set shiftwidth=4
+set expandtab
+set smarttab
 
 " indentation
 set autoindent
@@ -23,22 +23,11 @@ syntax on
 filetype on                 " enables filetype detection
 filetype plugin indent on   " enables filetype specific plugins
 
-" colorpack
-colorscheme vibrantink
-
-" gundo
-nnoremap <F5> :GundoToggle<CR>
-
 " lusty
 set hidden
 
 " pep8
 let g:pep8_map='<leader>8'
-
-" supertab
-au FileType python set omnifunc=pythoncomplete#Complete
-let g:SuperTabDefaultCompletionType = "context"
-set completeopt=menuone,longest,preview
 
 " line numbers
 set number
