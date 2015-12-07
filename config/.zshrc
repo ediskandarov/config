@@ -42,7 +42,7 @@ ZSH_THEME="andrew"
 # Would you like to use another custom folder than $ZSH/custom?
 ZSH_CUSTOM=$HOME/.zsh-custom
 
-export WORKON_HOME=~/projects/envs
+export WORKON_HOME=~/.virtualenvs
 export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
 source ~/.local/bin/virtualenvwrapper.sh
 
@@ -88,5 +88,9 @@ fi
 setopt inc_append_history
 setopt share_history
 
-REPORTTIME=5
-TIMEFMT="%U user %S system %P cpu %*Es total"
+export REPORTTIME=5
+export TIMEFMT="%U user %S system %P cpu %*Es total"
+
+
+export AWS_ACCESS_KEY_ID="AKIAJC3RCDUKVA3SZT3A"
+export AWS_SECRET_ACCESS_KEY="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"
