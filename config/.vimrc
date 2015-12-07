@@ -1,9 +1,44 @@
-imap <special><F5> <ESC>:w\|!python3 %<CR>
-nmap <F5> :w\|!python3 %<CR>
+" pathogen
+let g:pathogen_disabled = [ 'pathogen' ]    " don't load self 
+call pathogen#infect()                      " load everyhting else
+call pathogen#helptags()                    " load plugin help files
 
-set tabstop=4
-set shiftwidth=4
-set expandtab
-set smarttab
+" code folding
+set foldmethod=indent
+set foldlevel=2
+set foldnestmax=4
+
+" indentation
 set autoindent
-set smartindent
+set softtabstop=4 shiftwidth=4 expandtab
+
+" visual
+highlight Normal ctermbg=black
+set background=dark
+set cursorline
+set t_Co=256
+
+" syntax highlighting
+syntax on
+filetype on                 " enables filetype detection
+filetype plugin indent on   " enables filetype specific plugins
+
+" colorpack
+colorscheme vibrantink
+
+" gundo
+nnoremap <F5> :GundoToggle<CR>
+
+" lusty
+set hidden
+
+" pep8
+let g:pep8_map='<leader>8'
+
+" supertab
+au FileType python set omnifunc=pythoncomplete#Complete
+let g:SuperTabDefaultCompletionType = "context"
+set completeopt=menuone,longest,preview
+
+" line numbers
+set number

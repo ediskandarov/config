@@ -27,5 +27,3 @@ if [ -d "$HOME/.local/bin" ] ; then
 fi
 
 EDITOR="emacs -nw"
-
-PATH="$HOME/android-sdk-linux/tools:$HOME/android-sdk-linux/platform-tools:$HOME:$PATH"
