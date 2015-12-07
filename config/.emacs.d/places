@@ -1,2 +1,17 @@
 ;;; -*- coding: utf-8 -*-
-nil
+(("/home/andrew/.emacs.d/elpa/archives/gnu/archive-contents" . 25457)
+ ("/home/andrew/.emacs.d/elpa/archives/melpa/archive-contents" . 464580)
+ ("/home/andrew/.emacs.d/elpa/company-20151201.1508/company-autoloads.el" . 8592)
+ ("/home/andrew/.emacs.d/elpa/csharp-mode-20151201.1430/csharp-mode-autoloads.el" . 1864)
+ ("/home/andrew/.emacs.d/elpa/find-file-in-project-20151201.1917/find-file-in-project-autoloads.el" . 5293)
+ ("/home/andrew/.emacs.d/elpa/go-snippets-20151121.2257/go-snippets-autoloads.el" . 469)
+ ("/home/andrew/.emacs.d/elpa/markdown-mode-20151206.816/markdown-mode-autoloads.el" . 756)
+ ("/home/andrew/.emacs.d/elpa/popup-20151125.542/popup-autoloads.el" . 177)
+ ("/home/andrew/.emacs.d/elpa/projectile-20151130.1039/projectile-autoloads.el" . 9382)
+ ("/home/andrew/.emacs.d/elpa/swiper-20151207.112/swiper-autoloads.el" . 2465)
+ ("/home/andrew/.emacs.d/elpa/web-mode-20151204.1318/web-mode-autoloads.el" . 402)
+ ("/home/andrew/.emacs.d/elpa/yasnippet-20151126.518/yasnippet-autoloads.el" . 1492)
+ ("/home/andrew/projects/config/config/.emacs.d/init.el" . 1104)
+ ("/home/andrew/projects/config/config/.profile" . 646)
+ ("/home/andrew/projects/config/config/.vimrc" . 640)
+ ("/home/andrew/projects/config/config/.zshrc" . 2524))

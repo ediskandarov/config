@@ -58,7 +58,7 @@
 ; (add-to-list 'load-path "~/.emacs.d/")
 
 (setq inhibit-splash-screen t) ;; no splash screen
-(global-linum-mode t) ;; enable line numbers globally
+; (global-linum-mode t) ;; enable line numbers globally
 (column-number-mode t)
 (menu-bar-mode -1) ;;no menubar
 (scroll-bar-mode -1) ;; no scroll bar
