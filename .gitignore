@@ -11,6 +11,7 @@ config/.emacs.d/places
 config/.emacs.d/tramp
 config/.emacs.d/abbrev_defs
 config/.emacs.d/projectile-bookmarks.eld
+config/.emacs.d/ido.last
 *.log
 __pycache__
 *.swp
