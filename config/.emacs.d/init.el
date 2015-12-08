@@ -39,6 +39,9 @@
     highlight-indentation
     idomenu
     iedit
+    jedi
+    jedi-core
+    jedi-direx
     lua-mode
     markdown-mode
     markdown-mode+
