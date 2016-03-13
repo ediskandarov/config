@@ -19,6 +19,7 @@
     company-c-headers
     company-go
     csharp-mode
+    cython-mode
     dash
     dired+
     dired-hacks-utils
@@ -45,13 +46,11 @@
     lua-mode
     markdown-mode
     markdown-mode+
-    nose
     pkg-info
     projectile
     pyvenv
     tangotango-theme
-    web-mode
-    yasnippet))
+    web-mode))
 
 (mapc #'(lambda (package)
     (unless (package-installed-p package)
@@ -146,6 +145,7 @@
 ;(elpy-use-ipython)
 (setq elpy-rpc-python-command "python3")
 (setq elpy-rpc-backend "jedi")
+(setq elpy-rpc-error-timeout 1000000)
 (elpy-enable)
 (define-key python-mode-map (kbd "C-;")  'iedit-mode)
 (define-key global-map (kbd "C-x C-b") 'ibuffer)
@@ -267,3 +267,4 @@
  '(whitespace-hspace ((t (:background "#2e3434"))))
  '(whitespace-space ((t (:background "#2e3434")))))
 
+(put 'narrow-to-region 'disabled nil)

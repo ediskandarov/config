@@ -19,4 +19,4 @@ enabled = true
 [help]
 autocorrect = 1
 [push]
-default = current
+default = simple

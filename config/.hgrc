@@ -12,3 +12,4 @@ pager = LESS='FRX' less
 [ui]
 editor = vim
 username = Andrew Svetlov <andrew.svetlov@gmail.com>
+merge=internal:merge

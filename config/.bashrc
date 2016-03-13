@@ -120,3 +120,6 @@ _pip_completion()
 }
 complete -o default -F _pip_completion pip
 ## pip bash completion end
+
+# added by travis gem
+[ -f /home/andrew/.travis/travis.sh ] && source /home/andrew/.travis/travis.sh
