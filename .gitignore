@@ -15,3 +15,6 @@ config/.emacs.d/ido.last
 *.log
 __pycache__
 *.swp
+
+config/.emacs.d/elpa
+config/.emacs.d/local.el

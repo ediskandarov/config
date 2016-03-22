@@ -267,4 +267,7 @@
  '(whitespace-hspace ((t (:background "#2e3434"))))
  '(whitespace-space ((t (:background "#2e3434")))))
 
-(put 'narrow-to-region 'disabled nil)
+; (put 'narrow-to-region 'disabled nil)
+
+(if (file-exists-p "./local.el")
+    (load-file "./local.el"))
