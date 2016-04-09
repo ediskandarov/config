@@ -85,8 +85,5 @@ export REPORTTIME=5
 export TIMEFMT="%U user %S system %P cpu %*Es total"
 
 
-export AWS_ACCESS_KEY_ID="AKIAJC3RCDUKVA3SZT3A"
-export AWS_SECRET_ACCESS_KEY="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"
-
 # added by travis gem
 [ -f /home/andrew/.travis/travis.sh ] && source /home/andrew/.travis/travis.sh
